@@ -44,58 +44,55 @@
     <p>{{ $message }}</p>
 </div>
 @endif
-<table class="table table-bordered">
-    <tr>
-        <th>ID</th>
-        <th>FIRSTNAME</th>
-        <th>LASTNAME</th>
-        <th>GENDER</th>
-        <th>ADDRESS</th>
-        <th>DOB</th>
-        <th>DEPT</th>
-        <th>STATUS</th>
-        @if (Auth::user()->role=='admin')
-        <th width="280px">Action</th>
-        @endif
-    </tr>
-    @foreach ($employee as $data)
-    <tr>
-        <td>{{ $data->ID }}</td>
-        <td>{{ $data->FIRSTNAME }}</td>
-        <td>{{ $data->LASTNAME }}</td>
-        <td>{{ $data->GENDER  }}</td>
-        <td>{{ $data->ADDRESS  }}</td>
-        <td>{{ $data->DOB }}</td>
-        <td>{{ $data->NAME }}</td>
-        <td>{{ $data->STATUS  }}</td>
-        @if (Auth::user()->role=='admin')
-        <td>
-            <form action="{{ url('employee/hapus/'. $data->ID) }}" method="POST">
-                {{-- <a class="btn btn-info" href="{{ route('employee.show'. $data->ID) }}">Show</a> --}}
-                <a class="btn btn-primary" href="{{ url('employee/update/'.$data->ID) }}">Edit</a>
-                @csrf
-                @method('DELETE')
-                <a href="{{ url('employee/hapus/'. $data->ID) }}" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin untuk menghapus data ini ?')">Hapus</a>
-                {{-- <button type="submit" class="btn btn-danger">Delete</button> --}}
-            </form>
-        </td>
-        @endif
-    </tr>
-    @endforeach
+<table id="dfUsageTable" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>FIRSTNAME</th>
+            <th>LASTNAME</th>
+            <th>GENDER</th>
+            <th>ADDRESS</th>
+            <th>DOB</th>
+            <th>DEPT</th>
+            <th>STATUS</th>
+            @if (Auth::user()->role=='admin')
+            <th width="280px">Action</th>
+            @endif
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($employee as $data)
+        <tr>
+            <td>{{ $data->ID }}</td>
+            <td>{{ $data->FIRSTNAME }}</td>
+            <td>{{ $data->LASTNAME }}</td>
+            <td>{{ $data->GENDER }}</td>
+            <td>{{ $data->ADDRESS }}</td>
+            <td>{{ $data->DOB }}</td>
+            <td>{{ $data->NAME }}</td>
+            <td>{{ $data->STATUS }}</td>
+            @if (Auth::user()->role=='admin')
+            <td>
+                <form action="{{ url('employee/hapus/'. $data->ID) }}" method="POST">
+                    {{-- <a class="btn btn-info" href="{{ route('employee.show'. $data->ID) }}">Show</a> --}}
+                    <a class="btn btn-primary" href="{{ url('employee/update/'.$data->ID) }}">Edit</a>
+                    @csrf
+                    @method('DELETE')
+                    <a href="{{ url('employee/hapus/'. $data->ID) }}" class="btn btn-danger"
+                        onclick="return confirm('Apakah Anda yakin untuk menghapus data ini ?')">Hapus</a>
+                    {{-- <button type="submit" class="btn btn-danger">Delete</button> --}}
+                </form>
+            </td>
+            @endif
+        </tr>
+        @endforeach
+    </tbody>
 </table>
 @endsection
 @push('js')
 <script>
-    $(function () {
-      $('#example').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": false,
-        "autoWidth": false,
-        "responsive": true,
-      });
-    });
+    new DataTable('#dfUsageTable');
+    // $('#dfUsageTable').DataTable({
+    // });
 </script>
 @endpush
